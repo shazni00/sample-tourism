@@ -1,27 +1,41 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { vehicles } from '@/lib/data';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
-import { Star, Users, Zap, AlertCircle, CheckCircle, Calendar } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { vehicles } from "@/lib/data";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import {
+  Star,
+  Users,
+  Zap,
+  AlertCircle,
+  CheckCircle,
+  Calendar,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Navbar } from "@/components/navbar";
 
-export default function VehicleDetailsPage({ params }: { params: { id: string } }) {
+export default function VehicleDetailsPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const router = useRouter();
   const vehicle = vehicles.find((v) => v.id === params.id);
   const [days, setDays] = useState(1);
-  const [pickupDate, setPickupDate] = useState('');
-  const [dropoffDate, setDropoffDate] = useState('');
+  const [pickupDate, setPickupDate] = useState("");
+  const [dropoffDate, setDropoffDate] = useState("");
 
   if (!vehicle) {
     return (
       <main className="min-h-screen bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
           <h1 className="text-3xl font-bold mb-4">Vehicle Not Found</h1>
-          <p className="text-muted-foreground mb-6">Sorry, we couldn't find the vehicle you're looking for.</p>
+          <p className="text-muted-foreground mb-6">
+            Sorry, we couldn't find the vehicle you're looking for.
+          </p>
           <Link href="/vehicles">
             <Button>Back to Vehicles</Button>
           </Link>
@@ -34,7 +48,7 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
 
   const handleAddToCart = () => {
     const booking = {
-      type: 'vehicle',
+      type: "vehicle",
       id: vehicle.id,
       name: vehicle.name,
       pricePerDay: vehicle.pricePerDay,
@@ -44,24 +58,30 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
       totalPrice,
     };
 
-    const existingBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    const existingBookings = JSON.parse(
+      localStorage.getItem("bookings") || "[]",
+    );
     existingBookings.push(booking);
-    localStorage.setItem('bookings', JSON.stringify(existingBookings));
-    localStorage.setItem('cart', JSON.stringify(existingBookings));
+    localStorage.setItem("bookings", JSON.stringify(existingBookings));
+    localStorage.setItem("cart", JSON.stringify(existingBookings));
 
-    router.push('/booking');
+    router.push("/booking");
   };
 
   return (
     <main className="min-h-screen bg-background">
+      <Navbar />
       {/* Hero Section */}
       <section className="bg-muted py-8 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/vehicles" className="text-primary hover:underline mb-4 inline-block">
+          <Link
+            href="/vehicles"
+            className="text-primary hover:underline mb-4 inline-block"
+          >
             ← Back to Vehicles
           </Link>
           <h1 className="text-4xl font-bold text-foreground">{vehicle.name}</h1>
-          <p className="text-muted-foreground mt-2">{vehicle.type}</p>
+          <p className="text-primary mt-2 font-semibold">{vehicle.type}</p>
         </div>
       </section>
 
@@ -90,20 +110,23 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
                         key={i}
                         className={`w-5 h-5 ${
                           i < Math.floor(vehicle.rating)
-                            ? 'fill-accent text-accent'
-                            : 'text-muted-foreground'
+                            ? "fill-accent text-accent"
+                            : "text-muted-foreground"
                         }`}
                       />
                     ))}
                   </div>
                   <div>
                     <p className="text-2xl font-bold">{vehicle.rating}</p>
-                    <p className="text-sm text-muted-foreground">{vehicle.reviews} reviews</p>
+                    <p className="text-sm text-muted-foreground">
+                      {vehicle.reviews} reviews
+                    </p>
                   </div>
                 </div>
                 <p className="text-foreground">
-                  Customers love this {vehicle.name} for its{' '}
-                  {vehicle.features[0].toLowerCase()} and {vehicle.features[1].toLowerCase()}.
+                  Customers love this {vehicle.name} for its{" "}
+                  {vehicle.features[0].toLowerCase()} and{" "}
+                  {vehicle.features[1].toLowerCase()}.
                 </p>
               </Card>
 
@@ -125,21 +148,31 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
                 <h2 className="text-2xl font-bold mb-4">Specifications</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Capacity</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Capacity
+                    </p>
                     <div className="flex items-center gap-2">
                       <Users className="w-5 h-5 text-primary" />
-                      <span className="text-lg font-bold">{vehicle.capacity}</span>
+                      <span className="text-lg font-bold">
+                        {vehicle.capacity}
+                      </span>
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Transmission</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Transmission
+                    </p>
                     <p className="text-lg font-bold">{vehicle.transmission}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Fuel Type</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      Fuel Type
+                    </p>
                     <div className="flex items-center gap-2">
                       <Zap className="w-5 h-5 text-primary" />
-                      <span className="text-lg font-bold">{vehicle.fuelType}</span>
+                      <span className="text-lg font-bold">
+                        {vehicle.fuelType}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -150,7 +183,9 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
                 <div className="flex gap-3">
                   <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                   <div className="space-y-2">
-                    <h3 className="font-bold text-foreground">Rental Requirements</h3>
+                    <h3 className="font-bold text-foreground">
+                      Rental Requirements
+                    </h3>
                     <ul className="text-sm text-foreground space-y-1 list-disc list-inside">
                       <li>Valid driver's license required</li>
                       <li>Minimum age: 21 years</li>
@@ -168,15 +203,23 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
               <Card className="p-6 sticky top-24 space-y-6">
                 {/* Price */}
                 <div className="border-b border-border pb-6">
-                  <div className="text-sm text-muted-foreground mb-2">Daily Rate</div>
-                  <div className="text-4xl font-bold text-foreground">${vehicle.pricePerDay}</div>
-                  <div className="text-sm text-muted-foreground mt-1">per day</div>
+                  <div className="text-sm text-muted-foreground mb-2">
+                    Daily Rate
+                  </div>
+                  <div className="text-4xl font-bold text-foreground">
+                    ${vehicle.pricePerDay}
+                  </div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    per day
+                  </div>
                 </div>
 
                 {/* Rental Period */}
                 <div className="space-y-3">
                   <label className="block">
-                    <span className="text-sm font-medium text-foreground mb-2 block">Pickup Date</span>
+                    <span className="text-sm font-medium text-foreground mb-2 block">
+                      Pickup Date
+                    </span>
                     <Input
                       type="date"
                       value={pickupDate}
@@ -186,7 +229,9 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
                   </label>
 
                   <label className="block">
-                    <span className="text-sm font-medium text-foreground mb-2 block">Dropoff Date</span>
+                    <span className="text-sm font-medium text-foreground mb-2 block">
+                      Dropoff Date
+                    </span>
                     <Input
                       type="date"
                       value={dropoffDate}
@@ -197,12 +242,16 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
 
                   <div className="space-y-2">
                     <label className="block">
-                      <span className="text-sm font-medium text-foreground mb-2 block">Number of Days</span>
+                      <span className="text-sm font-medium text-foreground mb-2 block">
+                        Number of Days
+                      </span>
                       <Input
                         type="number"
                         min="1"
                         value={days}
-                        onChange={(e) => setDays(Math.max(1, parseInt(e.target.value) || 1))}
+                        onChange={(e) =>
+                          setDays(Math.max(1, parseInt(e.target.value) || 1))
+                        }
                         className="w-full"
                       />
                     </label>
@@ -216,8 +265,12 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
                     <span>${vehicle.pricePerDay}/day</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Number of days:</span>
-                    <span>{days} day{days !== 1 ? 's' : ''}</span>
+                    <span className="text-muted-foreground">
+                      Number of days:
+                    </span>
+                    <span>
+                      {days} day{days !== 1 ? "s" : ""}
+                    </span>
                   </div>
                   <div className="flex justify-between font-bold text-lg pt-2">
                     <span>Total:</span>
@@ -260,14 +313,23 @@ export default function VehicleDetailsPage({ params }: { params: { id: string } 
               .filter((v) => v.type === vehicle.type && v.id !== vehicle.id)
               .slice(0, 4)
               .map((v) => (
-                <Card key={v.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                <Card
+                  key={v.id}
+                  className="overflow-hidden hover:shadow-lg transition-shadow"
+                >
                   <div className="h-40 overflow-hidden">
-                    <img src={v.image} alt={v.name} className="w-full h-full object-cover" />
+                    <img
+                      src={v.image}
+                      alt={v.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="p-4">
                     <h3 className="font-bold mb-2">{v.name}</h3>
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold text-primary">${v.pricePerDay}</span>
+                      <span className="text-2xl font-bold text-primary">
+                        ${v.pricePerDay}
+                      </span>
                       <Link href={`/vehicles/${v.id}`}>
                         <Button size="sm" variant="outline">
                           View

@@ -1,27 +1,30 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useState } from 'react';
-import { Menu, X, ShoppingCart } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import { useState } from "react";
+import { Menu, X, ShoppingCart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/tours', label: 'Tours' },
-    { href: '/vehicles', label: 'Vehicles' },
-    { href: '/contact', label: 'Contact' },
-    { href: '/admin', label: 'Admin' },
+    { href: "/", label: "Home" },
+    { href: "/tours", label: "Tours" },
+    { href: "/vehicles", label: "Vehicles" },
+    { href: "/contact", label: "Contact" },
+    { href: "/admin", label: "Admin" },
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-background border-b border-border">
+    <nav className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur-sm shadow-sm border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-primary">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-2xl font-bold text-primary"
+          >
             <span>🌍</span>
             <span className="hidden sm:inline">TravelExplorers</span>
             <span className="sm:hidden">TE</span>
